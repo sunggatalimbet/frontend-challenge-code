@@ -27,6 +27,9 @@ The libraries that you will use are:
 
 -   React Hook Form
 -   Zod
+-   Motion
+-   Clsx
+-   Tailwind Mrge
 -   React Query
 -   Shadcn UI
 
