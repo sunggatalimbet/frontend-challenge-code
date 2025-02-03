@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { ProductCard } from "@/entities/product/ui/product-card";
-import { Input } from "@/shared/ui/input";
 import {
+	Input,
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/shared/ui/select";
+} from "@/shared/ui";
 import { productApi } from "@/entities/product/api";
-import { LoadingSkeleton } from "@/entities/skeleton/product-list-skeleton";
+import { LoadingSkeleton } from "@/entities/skeleton/ui/product-list-skeleton";
 import { Search } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
 

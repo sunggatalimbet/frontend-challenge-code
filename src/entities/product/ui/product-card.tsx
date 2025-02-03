@@ -3,7 +3,7 @@
 import { type Product } from "../model/types";
 import Image from "next/image";
 import { Star, ShoppingCart } from "lucide-react";
-import { Button } from "@/shared/ui/button/index";
+import { Button } from "@/shared/ui/button";
 import { addToCart } from "@/features/cart/model/slice";
 import { useAppDispatch } from "@/shared/store/hooks";
 
