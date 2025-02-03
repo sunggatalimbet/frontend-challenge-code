@@ -71,7 +71,7 @@ export function ProductList({ initialData }: ProductListProps) {
 
 	if (error) {
 		return (
-			<div className="flex justify-center items-center min-h-[400px] text-red-500">
+			<div className="flex justify-center items-center min-h-[400px] text-red-500 dark:text-red-400">
 				Error loading products. Please try again later.
 			</div>
 		);
@@ -80,28 +80,39 @@ export function ProductList({ initialData }: ProductListProps) {
 	const products = data?.pages.flat() ?? [];
 
 	return (
-		<div>
+		<div className="min-h-screen bg-gray-100 dark:bg-gray-900">
 			<div className="mb-8 flex flex-col sm:flex-row gap-4">
 				<div className="relative flex-1 max-w-sm">
-					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
 					<Input
 						type="text"
 						placeholder="Search products..."
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
-						className="pl-9 bg-gray-50/50 border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-gray-200"
+						className="pl-9 bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50 dark:placeholder:text-gray-400"
 					/>
 				</div>
 				<Select value={sortBy} onValueChange={setSortBy}>
-					<SelectTrigger className="w-[180px] bg-gray-50/50 border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-gray-200">
+					<SelectTrigger className="w-[180px] bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50">
 						<SelectValue placeholder="Sort by" />
 					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="name">Name (A-Z)</SelectItem>
-						<SelectItem value="price">
+					<SelectContent className="dark:bg-gray-800 dark:border-gray-700">
+						<SelectItem
+							value="name"
+							className="dark:text-gray-50 dark:focus:bg-gray-700 dark:hover:bg-gray-700"
+						>
+							Name (A-Z)
+						</SelectItem>
+						<SelectItem
+							value="price"
+							className="dark:text-gray-50 dark:focus:bg-gray-700 dark:hover:bg-gray-700"
+						>
 							Price: Low to High
 						</SelectItem>
-						<SelectItem value="rating">
+						<SelectItem
+							value="rating"
+							className="dark:text-gray-50 dark:focus:bg-gray-700 dark:hover:bg-gray-700"
+						>
 							Rating: High to Low
 						</SelectItem>
 					</SelectContent>
@@ -114,13 +125,12 @@ export function ProductList({ initialData }: ProductListProps) {
 				))}
 			</div>
 
-			{/* Infinite scroll trigger */}
 			<div
 				ref={ref}
 				className="h-10 flex items-center justify-center mt-8"
 			>
 				{isFetchingNextPage && (
-					<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900" />
+					<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 dark:border-gray-300" />
 				)}
 			</div>
 		</div>

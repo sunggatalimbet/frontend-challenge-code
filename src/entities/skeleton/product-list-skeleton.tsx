@@ -12,7 +12,7 @@ export const LoadingSkeleton = () => {
 				{Array.from({ length: 8 }).map((_, index) => (
 					<div
 						key={index}
-						className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
+						className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col"
 					>
 						<Skeleton className="w-full h-48" /> {/* Image */}
 						<div className="p-4 space-y-4">

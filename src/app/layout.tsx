@@ -17,11 +17,12 @@ export const metadata: Metadata = {
 	description: "Shop our amazing products",
 };
 
-export function RootLayoutSource({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				suppressHydrationWarning
 			>
 				<Providers>{children}</Providers>
 			</body>
