@@ -1,0 +1,39 @@
+-   Project Setup
+-   [ ] Set up a new Next.js project.
+-   [ ] Install and configure Tailwind CSS for styling.
+-   [ ] Configure TypeScript for type safety.
+-   [ ] Initialize Redux for state management.
+-   [ ] Set up Git repository and commit initial setup.
+-   Fetching Product Data
+-   [ ] Create a JSON data structure for products or use a service like My JSON Server.
+-   [ ] Implement server-side data fetching using getServerSideProps in Next.js.
+-   [ ] Ensure SEO metadata for each product page.
+-   Product Listing Page
+-   [ ] Design a grid layout using Tailwind CSS.
+-   [ ] Display product cards with:
+-   [ ] Product image
+-   [ ] Product name
+-   [ ] Truncated product description (100 characters)
+-   [ ] Formatted price
+-   [ ] Rating display (stars or numerical value)
+-   [ ] Implement pagination or infinite scroll to load more products.
+-   Search Functionality
+-   [ ] Add a search bar to filter products by title.
+-   [ ] Implement case-insensitive real-time filtering.
+-   Sorting Functionality
+-   [ ] Implement sorting options for products (e.g., by price, rating).
+-   Shopping Cart
+-   [ ] Add functionality to add products to a shopping cart.
+-   [ ] Display total number of items and total price in a fixed header.
+-   Responsive Design
+-   [ ] Ensure the product listing page is responsive using Tailwind CSS classes.
+-   Clean Code and Modularization
+-   [ ] Write clean, modular, and maintainable React components.
+-   [ ] Ensure TypeScript typings are properly used throughout the codebase.
+-   Bonus Points (Optional)
+-   [ ] Write tests using Jest and React Testing Library.
+-   [ ] Implement additional features for enhanced user experience.
+-   Final Checks and Submission
+-   [ ] Test the application thoroughly.
+-   [ ] Document any known issues or limitations.
+-   [ ] Prepare GitHub repository link for submission.
