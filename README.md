@@ -24,8 +24,8 @@ This project was created as a challenge for job interview to the Greyball startu
 -   ✅ Real-time case-insensitive search functionality
 -   ✅ Product filtering by category
 -   ✅ Sort products by:
-    -   Price (low to high/high to low)
-    -   Rating
+    -   Price (low to high)
+    -   Rating (high to low)
     -   Name
 
 ### Shopping Cart
@@ -58,12 +58,10 @@ This project was created as a challenge for job interview to the Greyball startu
 ## Known Issues
 
 1. **Server Performance**:
-
     - Initial response times may be slower due to serverless architecture cold starts
     - Possible solution: Implementing caching strategies to improve performance or using a more powerful backend like Next API routes with MongoDB.
 
 2. **Setup**:
-
     - React 19 compatibility issues with testing libraries
     - Solution: Downgraded to React 18 as a workaround solution
 
