@@ -8,17 +8,34 @@ import { Star, ShoppingCart, Trash2 } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/store/hooks";
 import { addToCart, removeFromCart } from "@/features/cart/model/slice";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 interface ProductModalProps {
 	product: Product;
 }
 
 export function ProductModal({ product }: ProductModalProps) {
+	const t = useTranslations();
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const locale = useLocale();
 	const isInCart = useAppSelector((state) =>
 		state.cart.items.some((item) => item.id === product.id),
 	);
+
+	const title =
+		locale === "ru"
+			? product.titleRu
+			: locale === "kk"
+			? product.titleKz
+			: product.titleEn;
+	const description =
+		locale === "ru"
+			? product.descriptionRu
+			: locale === "kk"
+			? product.descriptionKz
+			: product.descriptionEn;
 
 	const handleClose = () => {
 		router.back();
@@ -44,7 +61,7 @@ export function ProductModal({ product }: ProductModalProps) {
 					<div className="relative aspect-square">
 						<Image
 							src={product.image || "/placeholder.svg"}
-							alt={product.title}
+							alt={title}
 							fill
 							className="object-cover rounded-md"
 						/>
@@ -68,10 +85,10 @@ export function ProductModal({ product }: ProductModalProps) {
 							</span>
 						</div>
 						<h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-							{product.title}
+							{title}
 						</h2>
 						<p className="text-gray-600 dark:text-gray-300">
-							{product.description}
+							{description}
 						</p>
 						<div className="flex items-center justify-between pt-4">
 							<span className="text-2xl font-bold text-gray-900 dark:text-gray-50">
@@ -84,12 +101,12 @@ export function ProductModal({ product }: ProductModalProps) {
 								{isInCart ? (
 									<>
 										<Trash2 className="h-4 w-4" />
-										Remove
+										{t("remove")}
 									</>
 								) : (
 									<>
 										<ShoppingCart className="mr-2 h-4 w-4" />
-										Add to Cart
+										{t("add-to-cart")}
 									</>
 								)}
 							</Button>

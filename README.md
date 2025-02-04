@@ -60,7 +60,7 @@ This project was created as a challenge for job interview to the Greyball startu
 1. **Server Performance**:
 
     - Initial response times may be slower due to serverless architecture cold starts
-    - Possible solution: Implementing caching strategies to improve performance
+    - Possible solution: Implementing caching strategies to improve performance or using a more powerful backend like Next API routes with MongoDB.
 
 2. **Setup**:
 

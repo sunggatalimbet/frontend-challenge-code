@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "@/shared/lib/store";
 import { NextIntlClientProvider } from "next-intl";
 import { mockProduct } from "@/shared/lib/utils/constants";
+import { useLocale } from "next-intl";
 
 const mockRouter = {
 	push: jest.fn(),
@@ -15,7 +16,18 @@ jest.mock("next/navigation", () => ({
 
 const messages = {
 	"add-to-cart": "Add to Cart",
+	product: {
+		rating: "Rating",
+		price: "Price",
+		currency: "$",
+	},
 };
+
+// Mock next-intl hooks
+jest.mock("next-intl", () => ({
+	useTranslations: () => (key: string) => key,
+	useLocale: () => "en",
+}));
 
 describe("ProductCard", () => {
 	const renderComponent = () => {
@@ -28,11 +40,34 @@ describe("ProductCard", () => {
 		);
 	};
 
+	it("renders product title in English", () => {
+		renderComponent();
+		expect(screen.getByText(mockProduct.titleEn)).toBeInTheDocument();
+	});
+
+	it("renders product description in English", () => {
+		renderComponent();
+		expect(screen.getByText(mockProduct.descriptionEn)).toBeInTheDocument();
+	});
+
+	// Test other locales
+	it("renders product title in Russian", () => {
+		(useLocale as jest.Mock).mockImplementation(() => "ru");
+		renderComponent();
+		expect(screen.getByText(mockProduct.titleRu)).toBeInTheDocument();
+	});
+
+	it("renders product title in Kazakh", () => {
+		(useLocale as jest.Mock).mockImplementation(() => "kz");
+		renderComponent();
+		expect(screen.getByText(mockProduct.titleKz)).toBeInTheDocument();
+	});
+
 	it("renders product information correctly", () => {
 		renderComponent();
 
-		expect(screen.getByText(mockProduct.title)).toBeInTheDocument();
-		expect(screen.getByText(mockProduct.description)).toBeInTheDocument();
+		expect(screen.getByText(mockProduct.titleEn)).toBeInTheDocument();
+		expect(screen.getByText(mockProduct.descriptionEn)).toBeInTheDocument();
 		expect(
 			screen.getByText(`$${mockProduct.price.toFixed(2)}`),
 		).toBeInTheDocument();
@@ -53,7 +88,7 @@ describe("ProductCard", () => {
 	it("navigates to product details on card click", () => {
 		renderComponent();
 
-		const card = screen.getByText(mockProduct.title).closest("div");
+		const card = screen.getByText(mockProduct.titleEn).closest("div");
 		fireEvent.click(card!);
 
 		expect(mockRouter.push).toHaveBeenCalledWith(

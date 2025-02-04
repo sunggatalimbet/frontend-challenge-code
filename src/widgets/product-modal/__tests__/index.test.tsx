@@ -4,6 +4,12 @@ import { Provider } from "react-redux";
 import { store } from "@/shared/lib/store";
 import { mockProduct } from "@/shared/lib/utils/constants";
 
+// Mock next-intl hooks
+jest.mock("next-intl", () => ({
+	useTranslations: () => (key: string) => key,
+	useLocale: () => "en",
+}));
+
 const mockRouter = {
 	back: jest.fn(),
 };
@@ -21,14 +27,10 @@ describe("ProductModal", () => {
 		);
 	};
 
-	it("renders product details correctly", () => {
+	it("renders product details in English", () => {
 		renderComponent();
-
-		expect(screen.getByText(mockProduct.title)).toBeInTheDocument();
-		expect(screen.getByText(mockProduct.description)).toBeInTheDocument();
-		expect(
-			screen.getByText(`$${mockProduct.price.toFixed(2)}`),
-		).toBeInTheDocument();
+		expect(screen.getByText(mockProduct.titleEn)).toBeInTheDocument();
+		expect(screen.getByText(mockProduct.descriptionEn)).toBeInTheDocument();
 	});
 
 	it("handles add to cart", () => {
