@@ -6,6 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { ProductCard } from "@/entities/product/ui/product-card";
 import {
+	Button,
 	Input,
 	Select,
 	SelectContent,
@@ -17,6 +18,7 @@ import { productService } from "@/entities/product/api/product.service";
 import { LoadingSkeleton } from "@/entities/skeleton/ui/product-list-skeleton";
 import { Search } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
+
 const ITEMS_PER_PAGE = 10;
 
 interface ProductListProps {
@@ -25,6 +27,7 @@ interface ProductListProps {
 
 export function ProductList({ initialData }: ProductListProps) {
 	const t = useTranslations();
+	const [searchInput, setSearchInput] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
 	const [sortBy, setSortBy] = useState("name");
 	const { ref, inView } = useInView();
@@ -53,22 +56,25 @@ export function ProductList({ initialData }: ProductListProps) {
 		},
 		initialData:
 			searchTerm === "" && sortBy === "name"
-				? {
-						pages: [initialData],
-						pageParams: [0],
-				  }
+				? { pages: [initialData], pageParams: [0] }
 				: undefined,
 	});
+
+	const handleSearch = () => {
+		setSearchTerm(searchInput);
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			handleSearch();
+		}
+	};
 
 	useEffect(() => {
 		if (inView && hasNextPage) {
 			fetchNextPage();
 		}
 	}, [inView, hasNextPage, fetchNextPage]);
-
-	if (isLoading) {
-		return <LoadingSkeleton />;
-	}
 
 	if (error) {
 		return (
@@ -83,15 +89,26 @@ export function ProductList({ initialData }: ProductListProps) {
 	return (
 		<div className="min-h-screen bg-gray-100 dark:bg-gray-900">
 			<div className="mb-8 flex flex-col sm:flex-row gap-4">
-				<div className="relative flex-1 max-w-sm">
-					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
-					<Input
-						type="text"
-						placeholder={t("input-placeholder")}
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="pl-9 bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50 dark:placeholder:text-gray-400"
-					/>
+				<div className="relative flex-1 max-w-sm flex gap-2">
+					<div className="relative flex-1">
+						<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+						<Input
+							type="text"
+							placeholder={t("input-placeholder")}
+							value={searchInput}
+							onChange={(e) => setSearchInput(e.target.value)}
+							onKeyDown={handleKeyDown}
+							className="pl-9 bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50 dark:placeholder:text-gray-400"
+						/>
+					</div>
+					<Button
+						onClick={handleSearch}
+						variant="default"
+						className="dark:ring-gray-700 ring-2 ring-gray-200 dark:text-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 "
+					>
+						{t("search")}
+						<Search className="h-4 w-4" />
+					</Button>
 				</div>
 				<Select value={sortBy} onValueChange={setSortBy}>
 					<SelectTrigger className="w-[180px] bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50">
@@ -120,11 +137,19 @@ export function ProductList({ initialData }: ProductListProps) {
 				</Select>
 			</div>
 
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-				{products.map((product) => (
-					<ProductCard key={product.id} product={product} />
-				))}
-			</div>
+			{isLoading && <LoadingSkeleton />}
+			{!isLoading && products.length === 0 ? (
+				<div className="flex flex-col items-center justify-center min-h-[400px] text-gray-500 dark:text-gray-400">
+					<p className="text-lg mb-2">{t("no-products-found")}</p>
+					<p className="text-sm">{t("try-adjusting-search")}</p>
+				</div>
+			) : (
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+					{products.map((product) => (
+						<ProductCard key={product.id} product={product} />
+					))}
+				</div>
+			)}
 
 			<div
 				ref={ref}

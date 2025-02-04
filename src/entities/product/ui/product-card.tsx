@@ -2,19 +2,27 @@
 
 import { type Product } from "../model/types";
 import Image from "next/image";
-import { Star, ShoppingCart } from "lucide-react";
+import { Star, ShoppingCart, Trash2 } from "lucide-react";
 import { Button } from "@/shared/ui/button";
-import { addToCart } from "@/features/cart/model/slice";
-import { useAppDispatch } from "@/shared/lib/store/hooks";
+import { addToCart, removeFromCart } from "@/features/cart/model/slice";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/store/hooks";
 import { useRouter } from "next/navigation";
-
+import { useTranslations } from "next-intl";
 export function ProductCard({ product }: { product: Product }) {
+	const t = useTranslations();
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const isInCart = useAppSelector((state) =>
+		state.cart.items.some((item) => item.id === product.id),
+	);
 
-	const handleAddToCart = (e: React.MouseEvent) => {
+	const handleCartAction = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		dispatch(addToCart(product));
+		if (isInCart) {
+			dispatch(removeFromCart(product.id));
+		} else {
+			dispatch(addToCart(product));
+		}
 	};
 
 	const handleClick = () => {
@@ -60,17 +68,23 @@ export function ProductCard({ product }: { product: Product }) {
 					{product.description}
 				</p>
 				<div className="mt-4 flex items-center justify-between">
-					<span className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+					<span className="text-md font-semibold text-gray-900 dark:text-gray-50 ">
 						${product.price.toFixed(2)}
 					</span>
 					<Button
 						size="sm"
-						variant="ghost"
-						onClick={handleAddToCart}
+						variant={isInCart ? "destructive" : "ghost"}
+						onClick={handleCartAction}
 						className="hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100"
 					>
-						<ShoppingCart className="mr-2 h-4 w-4" />
-						Add to Cart
+						{isInCart ? (
+							<Trash2 className="h-4 w-4" />
+						) : (
+							<div className="flex items-center gap-2">
+								<ShoppingCart className="mr-1 h-4 w-4" />
+								<span>{t("add-to-cart")}</span>
+							</div>
+						)}
 					</Button>
 				</div>
 			</div>

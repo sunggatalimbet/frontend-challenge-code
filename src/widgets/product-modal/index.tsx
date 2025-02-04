@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
-import { Star, ShoppingCart } from "lucide-react";
+import { Star, ShoppingCart, Trash2 } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
-import { useAppDispatch } from "@/shared/lib/store/hooks";
-import { addToCart } from "@/features/cart/model/slice";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/store/hooks";
+import { addToCart, removeFromCart } from "@/features/cart/model/slice";
 
 interface ProductModalProps {
 	product: Product;
@@ -16,18 +16,25 @@ interface ProductModalProps {
 export function ProductModal({ product }: ProductModalProps) {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const isInCart = useAppSelector((state) =>
+		state.cart.items.some((item) => item.id === product.id),
+	);
 
 	const handleClose = () => {
 		router.back();
 	};
 
-	const handleAddToCart = () => {
-		dispatch(addToCart(product));
+	const handleCartAction = () => {
+		if (isInCart) {
+			dispatch(removeFromCart(product.id));
+		} else {
+			dispatch(addToCart(product));
+		}
 	};
 
 	return (
 		<Dialog open onOpenChange={handleClose}>
-			<DialogContent className="max-w-3xl p-0 overflow-hidden">
+			<DialogContent className="max-w-3xl p-0 overflow-hidden pb-4 pl-4">
 				<DialogHeader>
 					<DialogTitle className="sr-only">
 						Product Details
@@ -39,7 +46,7 @@ export function ProductModal({ product }: ProductModalProps) {
 							src={product.image || "/placeholder.svg"}
 							alt={product.title}
 							fill
-							className="object-cover"
+							className="object-cover rounded-md"
 						/>
 					</div>
 					<div className="p-6 space-y-4">
@@ -70,9 +77,21 @@ export function ProductModal({ product }: ProductModalProps) {
 							<span className="text-2xl font-bold text-gray-900 dark:text-gray-50">
 								${product.price.toFixed(2)}
 							</span>
-							<Button onClick={handleAddToCart}>
-								<ShoppingCart className="mr-2 h-4 w-4" />
-								Add to Cart
+							<Button
+								onClick={handleCartAction}
+								variant={isInCart ? "destructive" : "default"}
+							>
+								{isInCart ? (
+									<>
+										<Trash2 className="h-4 w-4" />
+										Remove
+									</>
+								) : (
+									<>
+										<ShoppingCart className="mr-2 h-4 w-4" />
+										Add to Cart
+									</>
+								)}
 							</Button>
 						</div>
 					</div>

@@ -6,5 +6,10 @@
 	"sort-by-price": "Price: (Low to High)",
 	"sort-by-rating": "Rating: (High to Low)",
 	"items": "items",
-	"error-loading-products": "Error loading products. Please try again later."
+	"error-loading-products": "Error loading products. Please try again later.",
+	"no-products-found": "Sorry, no products found",
+	"try-adjusting-search": "Try adjusting your search or filter criteria",
+	"search": "Search",
+	"add-to-cart": "Add to Cart",
+	"remove": "Remove"
 }

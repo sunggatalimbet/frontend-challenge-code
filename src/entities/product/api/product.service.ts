@@ -1,9 +1,14 @@
+import axios from "axios";
 import { type Product } from "../model/types";
 
 const API_BASE_URL =
 	"https://my-json-server.typicode.com/sunggatalimbet/frontend-challange-code-fake-backend";
 
 const CACHE_TIME = 60; // Cache for 60 seconds
+
+const api = axios.create({
+	baseURL: API_BASE_URL,
+});
 
 interface GetAllParams {
 	offset: number;
@@ -35,36 +40,34 @@ class ProductService {
 			_order: order,
 		});
 
-		const response = await fetch(
-			`${API_BASE_URL}/products?${params.toString()}`,
-			{
-				next: {
-					revalidate: CACHE_TIME,
-					tags: ["products"],
+		try {
+			const { data } = await api.get<Product[]>(
+				`/products?${params.toString()}`,
+				{
+					headers: {
+						"Cache-Control": `s-maxage=${CACHE_TIME}`,
+					},
 				},
-			},
-		);
-
-		if (!response.ok) {
+			);
+			return data;
+		} catch (error) {
+			console.error("Failed to fetch products:", error);
 			throw new Error("Failed to fetch products");
 		}
-
-		return response.json();
 	}
 
 	async getById(id: string): Promise<Product> {
-		const response = await fetch(`${API_BASE_URL}/products/${id}`, {
-			next: {
-				revalidate: CACHE_TIME,
-				tags: ["products", `product-${id}`],
-			},
-		});
-
-		if (!response.ok) {
+		try {
+			const { data } = await api.get<Product>(`/products/${id}`, {
+				headers: {
+					"Cache-Control": `s-maxage=${CACHE_TIME}`,
+				},
+			});
+			return data;
+		} catch (error) {
+			console.error("Failed to fetch product:", error);
 			throw new Error("Failed to fetch product");
 		}
-
-		return response.json();
 	}
 }
 

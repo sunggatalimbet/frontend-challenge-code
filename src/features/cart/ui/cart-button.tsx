@@ -19,10 +19,11 @@ export const CartButton = () => {
 	);
 
 	return (
-		<Button variant="outline" className="flex items-center space-x-2">
+		<Button variant="outline" className="flex items-center space-x-1">
 			<ShoppingCart className="h-5 w-5" />
-			<span className="min-w-[3ch]">
-				{totalItems} {t("items")}
+			<span>
+				{totalItems}{" "}
+				<span className="hidden sm:inline-block">{t("items")}</span>
 			</span>
 			<span className="min-w-[6ch]">${totalPrice.toFixed(2)}</span>
 		</Button>
