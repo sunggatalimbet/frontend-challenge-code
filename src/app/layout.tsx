@@ -21,7 +21,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
 				suppressHydrationWarning
 			>
 				<Providers>{children}</Providers>

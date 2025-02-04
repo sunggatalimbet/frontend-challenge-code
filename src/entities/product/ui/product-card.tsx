@@ -6,16 +6,26 @@ import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { addToCart } from "@/features/cart/model/slice";
 import { useAppDispatch } from "@/shared/store/hooks";
+import { useRouter } from "next/navigation";
 
 export function ProductCard({ product }: { product: Product }) {
+	const router = useRouter();
 	const dispatch = useAppDispatch();
 
-	const handleAddToCart = () => {
+	const handleAddToCart = (e: React.MouseEvent) => {
+		e.stopPropagation();
 		dispatch(addToCart(product));
 	};
 
+	const handleClick = () => {
+		router.push(`/product/${product.id}`, { scroll: false });
+	};
+
 	return (
-		<div className="group relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-gray-700/25">
+		<div
+			onClick={handleClick}
+			className="group relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden transition-all hover:shadow-lg dark:hover:shadow-gray-700/25 cursor-pointer"
+		>
 			<div className="aspect-square overflow-hidden">
 				<Image
 					src={product.image || "/placeholder.svg"}

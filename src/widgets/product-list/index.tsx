@@ -12,7 +12,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/shared/ui";
-import { productApi } from "@/entities/product/api";
+import { productService } from "@/entities/product/api/product.service";
 import { LoadingSkeleton } from "@/entities/skeleton/ui/product-list-skeleton";
 import { Search } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
@@ -39,7 +39,7 @@ export function ProductList({ initialData }: ProductListProps) {
 		queryKey: ["products", searchTerm, sortBy],
 		initialPageParam: 0,
 		queryFn: ({ pageParam }) =>
-			productApi.getAll({
+			productService.getAll({
 				offset: pageParam * ITEMS_PER_PAGE,
 				limit: ITEMS_PER_PAGE,
 				search: searchTerm,

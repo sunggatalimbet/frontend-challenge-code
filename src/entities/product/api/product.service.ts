@@ -10,14 +10,13 @@ interface GetAllParams {
 	sort: string;
 }
 
-export const productApi = {
-	getAll: async ({
+class ProductService {
+	async getAll({
 		offset,
 		limit,
 		search,
 		sort,
-	}: GetAllParams): Promise<Product[]> => {
-		// Handle different sort cases
+	}: GetAllParams): Promise<Product[]> {
 		const sortMapping: Record<string, { field: string; order: string }> = {
 			name: { field: "title", order: "asc" },
 			price: { field: "price", order: "asc" },
@@ -37,12 +36,10 @@ export const productApi = {
 		const response = await fetch(
 			`${API_BASE_URL}/products?${params.toString()}`,
 			{
-				// Add cache options for server-side requests
 				cache:
 					process.env.NODE_ENV === "production"
 						? "force-cache"
 						: "no-store",
-				// Add next.js cache tags for revalidation if needed
 				next: { tags: ["products"] },
 			},
 		);
@@ -52,5 +49,23 @@ export const productApi = {
 		}
 
 		return response.json();
-	},
-};
+	}
+
+	async getById(id: string): Promise<Product> {
+		const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+			cache:
+				process.env.NODE_ENV === "production"
+					? "force-cache"
+					: "no-store",
+			next: { tags: ["products"] },
+		});
+
+		if (!response.ok) {
+			throw new Error("Failed to fetch product");
+		}
+
+		return response.json();
+	}
+}
+
+export const productService = new ProductService();
