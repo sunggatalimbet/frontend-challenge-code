@@ -4,7 +4,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "react-redux";
-import { store } from "@/shared/store";
+import { store } from "@/shared/lib/store";
 import { useState, useEffect } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {

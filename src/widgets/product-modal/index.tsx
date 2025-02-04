@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui";
 import { Button } from "@/shared/ui/button";
 import { Star, ShoppingCart } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
-import { useAppDispatch } from "@/shared/store/hooks";
+import { useAppDispatch } from "@/shared/lib/store/hooks";
 import { addToCart } from "@/features/cart/model/slice";
 
 interface ProductModalProps {

@@ -2,7 +2,7 @@
 
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/shared/ui/button";
-import { useAppSelector } from "@/shared/store/hooks";
+import { useAppSelector } from "@/shared/lib/store/hooks";
 import { useTranslations } from "next-intl";
 
 export const CartButton = () => {

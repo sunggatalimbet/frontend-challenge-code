@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { addToCart } from "@/features/cart/model/slice";
-import { useAppDispatch } from "@/shared/store/hooks";
+import { useAppDispatch } from "@/shared/lib/store/hooks";
 import { useRouter } from "next/navigation";
 
 export function ProductCard({ product }: { product: Product }) {

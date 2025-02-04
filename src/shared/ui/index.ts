@@ -25,3 +25,4 @@ export {
 	SelectScrollDownButton,
 } from "./select";
 export { Skeleton } from "./skeleton";
+export { LanguageSwitcher } from "./language-switcher";
