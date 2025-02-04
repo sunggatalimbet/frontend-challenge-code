@@ -55,6 +55,7 @@
 		"babel-jest": "^29.7.0"
 	},
 	"npm": {
-		"legacy-peer-deps": true
+		"legacy-peer-deps": true,
+		"strict-peer-deps": false
 	}
 }
