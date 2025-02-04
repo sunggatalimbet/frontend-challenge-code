@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
@@ -16,7 +17,6 @@ import { productService } from "@/entities/product/api/product.service";
 import { LoadingSkeleton } from "@/entities/skeleton/ui/product-list-skeleton";
 import { Search } from "lucide-react";
 import { type Product } from "@/entities/product/model/types";
-
 const ITEMS_PER_PAGE = 10;
 
 interface ProductListProps {
@@ -24,6 +24,7 @@ interface ProductListProps {
 }
 
 export function ProductList({ initialData }: ProductListProps) {
+	const t = useTranslations();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [sortBy, setSortBy] = useState("name");
 	const { ref, inView } = useInView();
@@ -72,7 +73,7 @@ export function ProductList({ initialData }: ProductListProps) {
 	if (error) {
 		return (
 			<div className="flex justify-center items-center min-h-[400px] text-red-500 dark:text-red-400">
-				Error loading products. Please try again later.
+				{t("loading")}
 			</div>
 		);
 	}
@@ -86,7 +87,7 @@ export function ProductList({ initialData }: ProductListProps) {
 					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
 					<Input
 						type="text"
-						placeholder="Search products..."
+						placeholder={t("input-placeholder")}
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="pl-9 bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50 dark:placeholder:text-gray-400"
@@ -94,26 +95,26 @@ export function ProductList({ initialData }: ProductListProps) {
 				</div>
 				<Select value={sortBy} onValueChange={setSortBy}>
 					<SelectTrigger className="w-[180px] bg-gray-50/50 dark:bg-gray-800 border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 dark:text-gray-50">
-						<SelectValue placeholder="Sort by" />
+						<SelectValue placeholder={t("sort-by")} />
 					</SelectTrigger>
 					<SelectContent className="dark:bg-gray-800 dark:border-gray-700">
 						<SelectItem
 							value="name"
 							className="dark:text-gray-50 dark:focus:bg-gray-700 dark:hover:bg-gray-700"
 						>
-							Name (A-Z)
+							{t("sort-by-name")}
 						</SelectItem>
 						<SelectItem
 							value="price"
 							className="dark:text-gray-50 dark:focus:bg-gray-700 dark:hover:bg-gray-700"
 						>
-							Price: Low to High
+							{t("sort-by-price")}
 						</SelectItem>
 						<SelectItem
 							value="rating"
 							className="dark:text-gray-50 dark:focus:bg-gray-700 dark:hover:bg-gray-700"
 						>
-							Rating: High to Low
+							{t("sort-by-rating")}
 						</SelectItem>
 					</SelectContent>
 				</Select>

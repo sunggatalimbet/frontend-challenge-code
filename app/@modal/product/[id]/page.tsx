@@ -3,12 +3,10 @@ import { productService } from "@/entities/product/api/product.service";
 import { Suspense } from "react";
 
 interface PageProps {
-	params: {
-		id: string;
-	};
+	id: string;
 }
 
-async function ProductPageContent({ id }: { id: string }) {
+async function ProductPageContent({ id }: PageProps) {
 	try {
 		const product = await productService.getById(id);
 		return (
@@ -39,7 +37,13 @@ async function ProductPageContent({ id }: { id: string }) {
 	}
 }
 
-export default function ProductPage({ params }: PageProps) {
+export default async function ProductPage({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
+
 	return (
 		<Suspense
 			fallback={
@@ -50,7 +54,7 @@ export default function ProductPage({ params }: PageProps) {
 				</div>
 			}
 		>
-			<ProductPageContent id={params.id} />
+			<ProductPageContent id={id} />
 		</Suspense>
 	);
 }

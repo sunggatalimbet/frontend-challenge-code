@@ -3,6 +3,8 @@ import { type Product } from "../model/types";
 const API_BASE_URL =
 	"https://my-json-server.typicode.com/sunggatalimbet/frontend-challange-code-fake-backend";
 
+const CACHE_TIME = 60; // Cache for 60 seconds
+
 interface GetAllParams {
 	offset: number;
 	limit: number;
@@ -36,11 +38,10 @@ class ProductService {
 		const response = await fetch(
 			`${API_BASE_URL}/products?${params.toString()}`,
 			{
-				cache:
-					process.env.NODE_ENV === "production"
-						? "force-cache"
-						: "no-store",
-				next: { tags: ["products"] },
+				next: {
+					revalidate: CACHE_TIME,
+					tags: ["products"],
+				},
 			},
 		);
 
@@ -53,11 +54,10 @@ class ProductService {
 
 	async getById(id: string): Promise<Product> {
 		const response = await fetch(`${API_BASE_URL}/products/${id}`, {
-			cache:
-				process.env.NODE_ENV === "production"
-					? "force-cache"
-					: "no-store",
-			next: { tags: ["products"] },
+			next: {
+				revalidate: CACHE_TIME,
+				tags: ["products", `product-${id}`],
+			},
 		});
 
 		if (!response.ok) {

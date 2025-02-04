@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
 				suppressHydrationWarning

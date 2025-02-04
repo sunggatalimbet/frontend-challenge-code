@@ -1,0 +1,10 @@
+{
+	"title": "Our Products",
+	"input-placeholder": "Search for products",
+	"sort-by": "Sort by",
+	"sort-by-name": "Name (A-Z)",
+	"sort-by-price": "Price: (Low to High)",
+	"sort-by-rating": "Rating: (High to Low)",
+	"items": "items",
+	"error-loading-products": "Error loading products. Please try again later."
+}
