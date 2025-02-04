@@ -1,6 +1,7 @@
 import { ProductModal } from "@/widgets/product-modal";
 import { productService } from "@/entities/product/api/product.service";
 import { Suspense } from "react";
+import { Metadata } from "next";
 
 interface PageProps {
 	id: string;
@@ -60,3 +61,22 @@ export default async function ProductPage({
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+	const { id } = await params;
+	const product = await productService.getById(id);
+
+	return {
+		title: product.title,
+		description: product.description,
+		openGraph: {
+			title: product.title,
+			description: product.description,
+			images: [product.image],
+		},
+	};
+}

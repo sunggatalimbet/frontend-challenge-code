@@ -13,8 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "E-Commerce Store",
-	description: "Shop our amazing products",
+	title: {
+		template: "%s | E-commerce Store",
+		default: "E-commerce Store",
+	},
+	description: "Browse our amazing collection of products",
+	keywords: ["e-commerce", "shop", "store", "products"],
+	authors: [{ name: "Your Name" }],
+	openGraph: {
+		title: "E-commerce Store",
+		description: "Browse our amazing collection of products",
+		type: "website",
+	},
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {

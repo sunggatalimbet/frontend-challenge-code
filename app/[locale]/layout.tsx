@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/shared/lib/i18n/routing";
+import { Metadata } from "next";
 
 export default async function LocaleLayout({
 	children,
@@ -24,3 +25,18 @@ export default async function LocaleLayout({
 		</NextIntlClientProvider>
 	);
 }
+
+export const metadata: Metadata = {
+	title: {
+		template: "%s | E-commerce Store",
+		default: "E-commerce Store",
+	},
+	description: "Browse our amazing collection of products",
+	keywords: ["e-commerce", "shop", "store", "products"],
+	authors: [{ name: "Your Name" }],
+	openGraph: {
+		title: "E-commerce Store",
+		description: "Browse our amazing collection of products",
+		type: "website",
+	},
+};
