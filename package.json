@@ -37,7 +37,7 @@
 		"@babel/plugin-transform-modules-commonjs": "^7.23.3",
 		"@eslint/eslintrc": "^3",
 		"@testing-library/jest-dom": "^6.1.4",
-		"@testing-library/react": "^14.0.0",
+		"@testing-library/react": "^14.2.1",
 		"@types/jest": "^29.5.14",
 		"@types/node": "^20",
 		"@types/react": "^19",
